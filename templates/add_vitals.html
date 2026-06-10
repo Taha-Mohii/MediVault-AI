@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Vitals</title>
+</head>
+<body>
+    <h1>Log Vitals</h1>
+    <form method="post">
+        <input type="date" name="date" required><br><br>
+        <input type="number" step="0.1" name="temperature" placeholder="Temperature (°C)" required><br><br>
+        <input type="number" name="bp_systolic" placeholder="BP Systolic" required><br><br>
+        <input type="number" name="bp_diastolic" placeholder="BP Diastolic" required><br><br>
+        <input type="number" step="0.1" name="sugar" placeholder="Blood Sugar (mg/dL)" required><br><br>
+        <input type="number" step="0.1" name="weight" placeholder="weight (KG)"><br><br>
+        <input type="number" name="heart_rate" placeholder="Heart Rate (bpm)"><br><br>
+        <button type="submit">Save Vitals</button>
+
+    </form>
+    <a href="/patient/{{patient_id}}">Back</a>
+</body>
+</html>

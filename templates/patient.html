@@ -11,7 +11,10 @@
     <p><b>Condition:</b>{{ patient [3] }}</p>
     <p><b>Doctor:</b>{{ patient [4] }}</p>
     <p><b>Hospital:</b>{{ patient [5] }}</p>
-
+    <hr>
+    <a href="/patient/{{ patient[0] }}/add_vitals">+ Log Vitals</a> |
+    <a href="/patient/{{ patient[0] }}/vitals">View Vitals</a>
+    <hr>
     <a href="/">Back</a>
 </body>
 </html>

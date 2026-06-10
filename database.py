@@ -39,6 +39,28 @@ def get_patient(patient_id):
 def delete_patient(patient_id):
     conn = get_conn()
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM vitals WHERE patient_id = %s",(patient_id,))
     cursor.execute("DELETE FROM patients WHERE id = %s",(patient_id,))
     conn.commit()
     conn.close()
+
+
+# VITALS SECTION..
+def add_vitals(patient_id , date ,temperature , bp_systolic , bp_diastolic , sugar , weight ,heart_rate):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("""
+                   INSERT INTO vitals (patient_id , date , temperature , bp_systolic , bp_diastolic,sugar,weight,heart_rate)
+                   VALUES(%s, %s, %s,%s ,%s ,%s ,%s ,%s)
+                   """,(patient_id,  date ,temperature , bp_systolic , bp_diastolic , sugar , weight ,heart_rate))
+    conn.commit()
+    conn.close()
+def get_vitals(patient_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM vitals where patient_id = %s  ORDER BY date DESC",(patient_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+    
+
