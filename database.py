@@ -64,3 +64,28 @@ def get_vitals(patient_id):
     return rows
     
 
+def get_patient_summary(patient_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM patients WHERE id = %s",(patient_id,))
+    patient = cursor.fetchone()
+
+    cursor.execute("SELECT * FROM vitals WHERE patient_id = %s ORDER BY date DESC LIMIT 5", (patient_id,))
+    vitals = cursor.fetchall()
+    conn.close()
+
+    summary = f"""
+Patient Name: {patient[1]}
+Age: {patient[2]}
+Medical Condition: {patient[3]}
+Doctor: {patient[4]}
+Hospital: {patient[5]}
+
+Recent Vitals:
+"""
+    if vitals:
+        for v in vitals:
+            summary +=  f"\nDate: {v[2]} | Temp: {v[3]}°C | BP: {v[4]}/{v[5]} | Sugar: {v[6]} | Weight: {v[7]}kg | Heart Rate: {v[8]}bpm"
+    else:
+        summary += "No Vitals Recorded Yet."
+    return summary

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Assistant - {{ patient[1] }}</title>
+</head>
+<body>
+    <h1>🤖 MedEx AI — {{ patient[1] }}</h1>
+    <a href="/patient/{{ patient[0] }}">Back</a>
+    <hr>
+
+    <form method="POST">
+        <textarea name="question" rows="3" cols="50" placeholder="Ask anything about this patient..."></textarea><br><br>
+        <button type="submit">Ask MedEx</button>
+    </form>
+
+    {% if response %}
+        <hr>
+        <h3>MedEx Response:</h3>
+        <p>{{ response }}</p>
+    {% endif %}
+</body>
+</html>

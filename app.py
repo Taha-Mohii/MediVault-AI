@@ -1,8 +1,9 @@
 from flask import Flask , render_template,request,redirect,url_for
-from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals
+from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary
 from dotenv import load_dotenv
 load_dotenv()
-
+from groq import Groq
+import os
 
 app = Flask(__name__)
 
@@ -54,6 +55,37 @@ def view_vitals(patient_id):
     p = get_patient(patient_id)
     vitals = get_vitals(patient_id)
     return render_template("vitals.html",patient=p,vitals=vitals)
+
+
+client = Groq(api_key = os.getenv("GROQ_API_KEY"))
+@app.route("/patient/<int:patient_id>/ai", methods = ["GET" , "POST"])
+def ai_assistant(patient_id):
+    p = get_patient(patient_id)
+    response = None
+    if request.method == "POST":
+        question = request.form["question"]
+        summary = get_patient_summary(patient_id)
+        messages = [
+            {
+                "role" : "system",
+                "content" : f""" you are MediVaut Ai namely Medex a helpful medical assistant.
+you have access to the following patient data:
+{summary}
+Answer questions based on this patient's data. Give dietary suggestions, explain vitals, and provide general health guidance.
+Always remind the user to consult their doctor for medical decisions.
+keep responses clear and simple."""
+            },
+            {
+                "role" : "user",
+                "content": question
+            }
+        ]
+        chat = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=messages
+        )
+        response = chat.choices[0].message.content
+    return render_template("ai.html",patient = p , response = response)
 
 
 if __name__ == "__main__":
