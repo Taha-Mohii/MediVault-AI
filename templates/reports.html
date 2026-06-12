@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - {{ patient[1] }}  </title>
+</head>
+<body>
+    <h1>Reports - {{ patient[1] }}</h1>
+    <a href="/patient/{{ patient[0] }}">Back</a> |
+    <a href="/patient/{{ patient[0] }}/upload">+ Upload Report</a>
+    <hr>
+    {% if reports %}
+        {% for r in reports %}
+        <div>
+             <b>{{ r[2] }}</b> — {{ r[3] }}<br>
+                <a href="{{ r[4] }}" target="_blank">View Report</a> |
+                <a href="/report/delete/{{ r[0] }}/{{ r[1] }}/{{ r[2] }}">Delete</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No reports uploaded yet.</p>
+    {% endif %}
+</body>
+</html>

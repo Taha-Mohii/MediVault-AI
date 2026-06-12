@@ -1,10 +1,15 @@
 import psycopg2
 import os
+import time
 from dotenv import load_dotenv
+from supabase import create_client
 
 load_dotenv()
 
 DB_URL = os.getenv("DATABASE_URL")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL,SUPABASE_KEY)
 
 def get_conn():
     return psycopg2.connect(DB_URL)
@@ -89,3 +94,38 @@ Recent Vitals:
     else:
         summary += "No Vitals Recorded Yet."
     return summary
+
+
+#REPORTS SECTION
+def upload_reports(patient_id,filename,category,file_bytes,content_type):
+    unique_filename = f"{int(time.time())}_{filename}"
+    path = f"{patient_id}/{unique_filename}"
+    supabase.storage.from_("Reports").upload(path,file_bytes,{"content-type": content_type})
+    file_url = supabase.storage.from_("Reports").get_public_url(path)
+    conn = get_conn()
+    cursor =conn.cursor()
+    cursor.execute("""
+        INSERT INTO reports (patient_id,filename,category,file_url)
+        VALUES (%s,%s,%s,%s)
+    """,(patient_id,unique_filename,category,file_url))
+    conn.commit()
+    conn.close()
+
+def get_reports(patient_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM reports WHERE patient_id = %s ORDER BY uploaded_at DESC",(patient_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+
+def delete_reports(report_id, patient_id, filename):
+    path = f"{patient_id}/{filename}"
+    supabase.storage.from_("Reports").remove([path])
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM reports WHERE id = %s",(report_id,))
+    conn.commit()
+    conn.close()
+    

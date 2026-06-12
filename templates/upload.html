@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Reports - {{ patient[1] }}</title>
+</head>
+<body>
+    <h1>Upload Reports - {{ patient[1] }}</h1>
+    <a href="/patient/{{ patient[0] }}">Back</a>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        <select name="category">
+            <option value="Blood Test">Blood Test</option>
+            <option value="Imaging">Imaging (MRI/CT/X-Ray)</option>
+            <option value="Biopsy">Biopsy</option>
+            <option value="Prescription">Prescription</option>
+            <option value="Doctor Notes">Doctor Notes</option>
+            <option value="Other">Other</option>
+        </select><br><br>
+        <input type="file" name="file" required><br><br>
+        <button type="submit" >Upload Report</button>
+    </form>
+</body>
+</html>

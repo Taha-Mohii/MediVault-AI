@@ -1,5 +1,5 @@
 from flask import Flask , render_template,request,redirect,url_for
-from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary
+from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary,upload_reports,get_reports,delete_reports
 from dotenv import load_dotenv
 load_dotenv()
 from groq import Groq
@@ -68,7 +68,7 @@ def ai_assistant(patient_id):
         messages = [
             {
                 "role" : "system",
-                "content" : f""" you are MediVaut Ai namely Medex a helpful medical assistant.
+                "content" : f""" you are MediVaut Ai namely MedEx a helpful medical assistant.
 you have access to the following patient data:
 {summary}
 Answer questions based on this patient's data. Give dietary suggestions, explain vitals, and provide general health guidance.
@@ -86,6 +86,30 @@ keep responses clear and simple."""
         )
         response = chat.choices[0].message.content
     return render_template("ai.html",patient = p , response = response)
+
+#REPORTS
+@app.route("/patient/<int:patient_id>/upload",methods=["GET" , "POST"])
+def upload(patient_id):
+    p = get_patient(patient_id)
+    if request.method == "POST":
+        file = request.files["file"]
+        category = request.form["category"]
+        file_bytes = file.read()
+        content_type = file.content_type
+        upload_reports(patient_id,file.filename,category,file_bytes,content_type)
+        return redirect(url_for("report", patient_id = patient_id))
+    return render_template("upload.html",patient=p)
+
+@app.route("/patient/<int:patient_id>/reports")
+def report(patient_id):
+    p = get_patient(patient_id)
+    r = get_reports(patient_id)
+    return render_template("reports.html",patient=p,reports=r)
+
+@app.route("/report/delete/<int:report_id>/<int:patient_id>/<filename>")
+def remove_report(report_id,patient_id,filename):
+    delete_reports(report_id,patient_id,filename)
+    return redirect(url_for("report",patient_id=patient_id))
 
 
 if __name__ == "__main__":
