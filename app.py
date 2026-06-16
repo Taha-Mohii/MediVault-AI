@@ -1,5 +1,5 @@
 from flask import Flask , render_template,request,redirect,url_for
-from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary,upload_reports,get_reports,delete_reports
+from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary,upload_reports,get_reports,delete_reports,add_medication,delete_medication,get_medications
 from dotenv import load_dotenv
 load_dotenv()
 from groq import Groq
@@ -111,6 +111,28 @@ def remove_report(report_id,patient_id,filename):
     delete_reports(report_id,patient_id,filename)
     return redirect(url_for("report",patient_id=patient_id))
 
+#MEDICATIONS
+@app.route("/patient/<int:patient_id>/medications")
+def medications(patient_id):
+    p = get_patient(patient_id)
+    meds = get_medications(patient_id)
+    return render_template("medication.html",patient=p,medications=meds)
+
+@app.route("/patient/<int:patient_id>/add_medication", methods = ["GET" , "POST"])
+def add_med(patient_id):
+    if request.method == "POST":
+        name = request.form["name"]
+        dose = request.form["dose"]
+        frequency = request.form["frequency"]
+        timing = request.form["timing"]
+        add_medication(patient_id,name,dose,frequency,timing)
+        return redirect(url_for("medications",patient_id=patient_id))
+    return render_template("add_medication.html",patient_id = patient_id)
+
+@app.route("/medication/delete/<int:medication_id>/<int:patient_id>")
+def remove_medication(medication_id,patient_id):
+    delete_medication(medication_id)
+    return redirect(url_for("medications",patient_id = patient_id))
 
 if __name__ == "__main__":
     app.run(debug = True)

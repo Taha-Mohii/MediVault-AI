@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications - {{ patient[1] }}</title>
+</head>
+<body>
+    <h1>Medications - {{ patient[1] }}</h1>
+    <a href="/patient/{{ patient[0] }}">Back</a> |
+    <a href="/patient/{{ patient[0] }}/add_medication">+ Add Medication</a>
+    <hr>
+    {% if medications %}
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Name</th>
+            <th>Dose</th>
+            <th>Frequency</th>
+            <th>Timing</th>
+            <th>Action</th>
+        </tr>
+        {% for m in medications %}
+        <tr>
+            <td>{{ m[2] }}</td>
+            <td>{{ m[3] }}</td>
+            <td>{{ m[4] }}</td>
+            <td>{{ m[5] }}</td>
+            <td><a href="/medication/delete/{{ m[0] }}/{{ m[1] }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No Medications added yet.</p>
+    {% endif %}
+</body>
+</html>

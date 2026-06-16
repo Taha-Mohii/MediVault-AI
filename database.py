@@ -129,3 +129,29 @@ def delete_reports(report_id, patient_id, filename):
     conn.commit()
     conn.close()
     
+
+#MEDICATION SECTION
+def add_medication(patient_id ,name ,dose ,frequency, timing):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO medications (patient_id, name, dose, frequency, timing)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (patient_id, name, dose, frequency, timing))
+    conn.commit()
+    conn.close()
+
+def get_medications(patient_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM medications WHERE patient_id = %s",(patient_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+def delete_medication(medication_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM medications WHERE id = %s",(medication_id,))
+    conn.commit()
+    conn.close()

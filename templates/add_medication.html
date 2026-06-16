@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medication</title>
+</head>
+<body>
+    <h1>Add Medication</h1>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Medication name" required><br><br>
+        <input type="text" name="dose" placeholder="Dose (e.g: 500mg)" required><br><br>
+        <select name="frequency">
+            <option value="Once daily">Once daily</option>
+            <option value="Twice daily">Twice daily</option>
+            <option value="Three times daily">Three times daily</option>
+            <option value="As needed">As needed</option>
+        </select><br><br>
+        <select name="timing">
+            <option value="Before food">Before food</option>
+            <option value="After food">After food</option>
+            <option value="With food">With food</option>
+            <option value="At bedtime">At food</option>
+        </select><br><br>
+        <button type="submit">Save Medication</button>
+    </form>
+    <a href="/patient/{{ patient_id }}/medications">Back</a>
+</body>
+</html>
