@@ -134,6 +134,63 @@ def remove_medication(medication_id,patient_id):
     delete_medication(medication_id)
     return redirect(url_for("medications",patient_id = patient_id))
 
+@app.route("/patient/<int:patient_id>/emergency")
+def emergency(patient_id):
+    p = get_patient(patient_id)
+    summary = get_patient_summary(patient_id)
+    messages = [
+        {
+            "role": "system",
+            "content": """You are MedEx, a medical assistant. Based on the patient data provided, generate:
+1. A list of emergency warning signs to watch for
+2. Immediate steps to take if an emergency occurs
+3. When to call an ambulance immediately
+
+Be clear, simple, and practical. Use bullet points."""
+        },
+        {
+            "role": "user",
+            "content": f"Patient data:\n{summary}\n\nGenerate emergency warning signs and guidance for this patient."
+        }
+    ]
+    chat = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=messages
+    )
+    response = chat.choices[0].message.content
+    return render_template("emergency.html", patient=p, response=response)
+
+
+@app.route("/patient/<int:patient_id>/summary")
+def visit_summary(patient_id):
+    p = get_patient(patient_id)
+    summary = get_patient_summary(patient_id)
+    meds = get_medications(patient_id)
+    med_list = "\n".join([f"- {m[2]} {m[3]} {m[4]} {m[5]}" for m in meds])
+    messages = [
+        {
+            "role": "system",
+            "content": """You are MedEx, a medical assistant. Generate a clean doctor visit summary that the patient can show to their doctor. Include:
+1. Patient overview
+2. Recent vitals trend
+3. Current medications
+4. Key concerns to discuss
+5. Questions to ask the doctor
+
+Keep it professional and concise."""
+        },
+        {
+            "role": "user",
+            "content": f"Patient data:\n{summary}\n\nMedications:\n{med_list}\n\nGenerate a doctor visit summary."
+        }
+    ]
+    chat = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=messages
+    )
+    response = chat.choices[0].message.content
+    return render_template("summary.html", patient=p, response=response)
+
 if __name__ == "__main__":
     app.run(debug = True)
 
