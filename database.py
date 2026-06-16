@@ -155,3 +155,13 @@ def delete_medication(medication_id):
     cursor.execute("DELETE FROM medications WHERE id = %s",(medication_id,))
     conn.commit()
     conn.close()
+
+def delete_patient(patient_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM vitals where patient_id=%s",(patient_id,))
+    cursor.execute("DELETE FROM medications WHERE patient_id = %s", (patient_id,))
+    cursor.execute("DELETE FROM reports WHERE patient_id = %s", (patient_id,))
+    cursor.execute("DELETE FROM patients WHERE id = %s", (patient_id,))
+    conn.commit()
+    conn.close()
