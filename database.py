@@ -3,6 +3,10 @@ import os
 import time
 from dotenv import load_dotenv
 from supabase import create_client
+from reportlab.lib.pagesizes import A4 
+from reportlab.pdfgen import canvas
+import io
+
 
 load_dotenv()
 
@@ -165,3 +169,40 @@ def delete_patient(patient_id):
     cursor.execute("DELETE FROM patients WHERE id = %s", (patient_id,))
     conn.commit()
     conn.close()
+
+def delete_vitals(vital_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM vitals WHERE id = %s",(vital_id,))
+    conn.commit()
+    conn.close()
+
+#PDF SUMMARY GEN
+def generate_summary_pdf(patient, response):
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, pagesize=A4)
+    width, height = A4
+
+    c.setFont("Helvetica-Bold",20)
+    c.drawString(50,height - 50, "MediVault — Doctor Visit Summary ")
+
+    c.setFont("Helvetica",12)
+    c.drawString(50,height - 80, f"Patient: {patient[1]}")
+    c.drawString(50, height - 100, f"Age: {patient[2]}   |  Condition: {patient[3]}")
+    c.drawString(50, height - 120, f"Doctor: {patient[4]}    |   Hospital: {patient[5]}")
+
+    c.line(50, height - 135, width - 50, height - 135)
+
+    y = height - 160
+    c.setFont("Helvetica", 11)
+    for line in response.split("\n"):
+        if y < 50:
+            c.showPage()
+            y = height - 50
+            c.setFont("Helvetica", 11)
+        c.drawString(50, y, line[:100])
+        y -= 18
+
+    c.save()
+    buf.seek(0)
+    return buf

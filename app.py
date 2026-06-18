@@ -1,6 +1,7 @@
 from flask import Flask , render_template,request,redirect,url_for
-from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary,upload_reports,get_reports,delete_reports,add_medication,delete_medication,get_medications
+from database import add_patient,get_all_patients,get_patient,delete_patient,add_vitals,get_vitals,get_patient_summary,upload_reports,get_reports,delete_reports,add_medication,delete_medication,get_medications,delete_vitals,generate_summary_pdf
 from dotenv import load_dotenv
+from flask import send_file
 load_dotenv()
 from groq import Groq
 import os
@@ -190,6 +191,42 @@ Keep it professional and concise."""
     )
     response = chat.choices[0].message.content
     return render_template("summary.html", patient=p, response=response)
+
+@app.route("/vital/delete/<int:vital_id>/<int:patient_id>")
+def remove_vital(vital_id, patient_id):
+    delete_vitals(vital_id)
+    return redirect(url_for("view_vitals", patient_id=patient_id))
+
+
+@app.route("/patient/<int:patient_id>/summary/pdf")
+def download_summary(patient_id):
+    p = get_patient(patient_id)
+    summary = get_patient_summary(patient_id)
+    meds = get_medications(patient_id)
+    med_list = "\n".join([f"- {m[2]} {m[3]} {m[4]} {m[5]}" for m in meds])
+    messages = [
+        {
+            "role": "system",
+            "content": """You are MedEx, a medical assistant. Generate a clean doctor visit summary. Include:
+1. Patient overview
+2. Recent vitals trend
+3. Current medications
+4. Key concerns to discuss
+5. Questions to ask the doctor
+Keep it professional and concise."""
+        },
+        {
+            "role": "user",
+            "content": f"Patient data:\n{summary}\n\nMedications:\n{med_list}\n\nGenerate a doctor visit summary."
+        }
+    ]
+    chat = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=messages
+    )
+    response = chat.choices[0].message.content
+    buf = generate_summary_pdf(p, response)
+    return send_file(buf, as_attachment=True, download_name = f"{p[1]}_summary.pdf" , mimetype="application/pdf")
 
 if __name__ == "__main__":
     app.run(debug = True)

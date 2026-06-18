@@ -8,6 +8,7 @@
 <body>
     <h1>📋 Doctor Visit Summary — {{ patient[1] }}</h1>
     <a href="/patient/{{ patient[0] }}">Back</a>
+    <a href="/patient/{{ patient[0] }}/summary/pdf">⬇️ Download as PDF</a>
     <hr>
     <p><b>Condition:</b> {{ patient[3] }}</p>
     <p><b>Doctor:</b> {{ patient[4] }} | <b>Hospital:</b> {{ patient[5] }}</p>
