@@ -2,22 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AI Assistant - {{ patient[1] }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>MedEx AI - {{ patient[1] }}</title>
 </head>
 <body>
-    <h1>🤖 MedEx AI — {{ patient[1] }}</h1>
-    <a href="/patient/{{ patient[0] }}">Back</a>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
+    <h1>🤖 MedEx AI</h1>
+    <p>Ask anything about {{ patient[1] }}'s health, vitals, diet, or medications.</p>
+
     <hr>
 
-    <form method="POST">
-        <textarea name="question" rows="3" cols="50" placeholder="Ask anything about this patient..."></textarea><br><br>
-        <button type="submit">Ask MedEx</button>
-    </form>
+    <div class="card">
+        <form method="POST">
+            <label>Ask MedEx</label>
+            <textarea name="question" rows="4" placeholder="e.g. Is the blood pressure trend normal? What foods should this patient avoid?"></textarea>
+            <button type="submit" class="btn btn-primary">Ask MedEx</button>
+        </form>
+    </div>
 
     {% if response %}
-        <hr>
-        <h3>MedEx Response:</h3>
-        <p>{{ response }}</p>
+    <div class="response-box">{{ response }}</div>
     {% endif %}
+
+</div>
 </body>
 </html>

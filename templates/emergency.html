@@ -3,18 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Emergency Guide - {{ patient[1] }}</title>
 </head>
 <body>
-    <h1>Emergency Guide - {{ patient[1] }}</h1>
-    <a href="/patient/{{ patient[0] }}">Back</a>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
+    <h1>🚨 Emergency Guide — {{ patient[1] }}</h1>
+    <p>AI-generated emergency guidance based on patient's condition and vitals.</p>
+
     <hr>
-    <p><b>Condition:</b> {{ patient[3] }}</p>
-    <p><b>Doctor:</b> {{ patient[4] }} | <b>Hospital:</b> {{ patient[5] }}</p>
-    <hr>
-    <div>
-        {{ response | safe }}
+
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="label">Condition</div>
+            <div class="value">{{ patient[3] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Doctor</div>
+            <div class="value">{{ patient[4] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Hospital</div>
+            <div class="value">{{ patient[5] }}</div>
+        </div>
     </div>
 
+    <hr>
+
+    <div class="emergency-box">{{ response }}</div>
+
+</div>
 </body>
 </html>

@@ -3,25 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Patient </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{{ patient[1] }}</title>
 </head>
 <body>
-    <h1>{{ patient [1] }}</h1>
-    <p><b>Age:</b>{{ patient [2] }}</p>
-    <p><b>Condition:</b>{{ patient [3] }}</p>
-    <p><b>Doctor:</b>{{ patient [4] }}</p>
-    <p><b>Hospital:</b>{{ patient [5] }}</p>
-    <hr>
-    <a href="/patient/{{ patient[0] }}/add_vitals">+ Log Vitals</a> |
-    <a href="/patient/{{ patient[0] }}/vitals">View Vitals</a>
-    <a href="/patient/{{ patient[0] }}/ai">🤖 Ask MedEx AI</a>
-    <a href="/patient/{{ patient[0] }}/upload">+ Upload Report</a> |
-    <a href="/patient/{{ patient[0] }}/reports">View Reports</a>
-    <a href="/patient/{{ patient[0] }}/medications">💊 Medications</a>
-    <a href="/patient/{{ patient[0] }}/emergency">🚨 Emergency Guide</a>
-    <a href="/patient/{{ patient[0] }}/summary">📋 Doctor Visit Summary</a>
+<div class="container">
+
+    <a href="/" class="back-link">← Back to Patients</a>
+
+    <h1>{{ patient[1] }}</h1>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="label">Age</div>
+            <div class="value">{{ patient[2] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Condition</div>
+            <div class="value">{{ patient[3] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Doctor</div>
+            <div class="value">{{ patient[4] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Hospital</div>
+            <div class="value">{{ patient[5] }}</div>
+        </div>
+    </div>
 
     <hr>
-    <a href="/">Back</a>
+
+    <h3>Quick Actions</h3>
+    <div class="action-grid">
+        <a href="/patient/{{ patient[0] }}/add_vitals" class="action-btn">
+            <span class="icon">❤️</span>Log Vitals
+        </a>
+        <a href="/patient/{{ patient[0] }}/vitals" class="action-btn">
+            <span class="icon">📈</span>View Vitals
+        </a>
+        <a href="/patient/{{ patient[0] }}/medications" class="action-btn">
+            <span class="icon">💊</span>Medications
+        </a>
+        <a href="/patient/{{ patient[0] }}/upload" class="action-btn">
+            <span class="icon">📄</span>Upload Report
+        </a>
+        <a href="/patient/{{ patient[0] }}/reports" class="action-btn">
+            <span class="icon">🗂️</span>View Reports
+        </a>
+        <a href="/patient/{{ patient[0] }}/ai" class="action-btn">
+            <span class="icon">🤖</span>Ask MedEx AI
+        </a>
+        <a href="/patient/{{ patient[0] }}/emergency" class="action-btn">
+            <span class="icon">🚨</span>Emergency Guide
+        </a>
+        <a href="/patient/{{ patient[0] }}/summary" class="action-btn">
+            <span class="icon">📋</span>Visit Summary
+        </a>
+    </div>
+
+</div>
 </body>
 </html>

@@ -3,18 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Visit Summary - {{ patient[1] }}</title>
 </head>
 <body>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
     <h1>📋 Doctor Visit Summary — {{ patient[1] }}</h1>
-    <a href="/patient/{{ patient[0] }}">Back</a>
-    <a href="/patient/{{ patient[0] }}/summary/pdf">⬇️ Download as PDF</a>
+    <p>AI-generated summary to show your doctor at the next visit.</p>
+
     <hr>
-    <p><b>Condition:</b> {{ patient[3] }}</p>
-    <p><b>Doctor:</b> {{ patient[4] }} | <b>Hospital:</b> {{ patient[5] }}</p>
-    <hr>
-    <div>
-        {{ response | safe }}
+
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="label">Condition</div>
+            <div class="value">{{ patient[3] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Doctor</div>
+            <div class="value">{{ patient[4] }}</div>
+        </div>
+        <div class="info-item">
+            <div class="label">Hospital</div>
+            <div class="value">{{ patient[5] }}</div>
+        </div>
     </div>
+
+    <div class="nav">
+        <a href="/patient/{{ patient[0] }}/summary/pdf" class="btn btn-orange">⬇️ Download as PDF</a>
+    </div>
+
+    <hr>
+
+    <div class="response-box">{{ response }}</div>
+
+</div>
 </body>
 </html>

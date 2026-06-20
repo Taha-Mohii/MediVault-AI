@@ -3,21 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Log Vitals</title>
 </head>
 <body>
-    <h1>Log Vitals</h1>
-    <form method="post">
-        <input type="date" name="date" required><br><br>
-        <input type="number" step="0.1" name="temperature" placeholder="Temperature (°C)" required><br><br>
-        <input type="number" name="bp_systolic" placeholder="BP Systolic" required><br><br>
-        <input type="number" name="bp_diastolic" placeholder="BP Diastolic" required><br><br>
-        <input type="number" step="0.1" name="sugar" placeholder="Blood Sugar (mg/dL)" required><br><br>
-        <input type="number" step="0.1" name="weight" placeholder="weight (KG)"><br><br>
-        <input type="number" name="heart_rate" placeholder="Heart Rate (bpm)"><br><br>
-        <button type="submit">Save Vitals</button>
+<div class="container">
 
-    </form>
-    <a href="/patient/{{patient_id}}">Back</a>
+    <a href="/patient/{{ patient_id }}" class="back-link">← Back to Patient</a>
+
+    <h1>❤️ Log Vitals</h1>
+    <p>Record the patient's current vital signs.</p>
+
+    <hr>
+
+    <div class="card">
+        <form method="POST">
+            <label>Date</label>
+            <input type="date" name="date" required>
+
+            <label>Temperature (°C)</label>
+            <input type="number" step="0.1" name="temperature" placeholder="e.g. 98.6" required>
+
+            <label>BP Systolic</label>
+            <input type="number" name="bp_systolic" placeholder="e.g. 120" required>
+
+            <label>BP Diastolic</label>
+            <input type="number" name="bp_diastolic" placeholder="e.g. 80" required>
+
+            <label>Blood Sugar (mg/dL)</label>
+            <input type="number" step="0.1" name="sugar" placeholder="e.g. 100">
+
+            <label>Weight (kg)</label>
+            <input type="number" step="0.1" name="weight" placeholder="e.g. 70">
+
+            <label>Heart Rate (bpm)</label>
+            <input type="number" name="heart_rate" placeholder="e.g. 72">
+
+            <button type="submit" class="btn btn-primary">Save Vitals</button>
+        </form>
+    </div>
+
+</div>
 </body>
 </html>

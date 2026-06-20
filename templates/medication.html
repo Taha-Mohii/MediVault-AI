@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Medications - {{ patient[1] }}</title>
 </head>
 <body>
-    <h1>Medications - {{ patient[1] }}</h1>
-    <a href="/patient/{{ patient[0] }}">Back</a> |
-    <a href="/patient/{{ patient[0] }}/add_medication">+ Add Medication</a>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
+    <h1>💊 Medications — {{ patient[1] }}</h1>
+    <p>Current medication schedule for this patient.</p>
+
+    <div class="nav">
+        <a href="/patient/{{ patient[0] }}/add_medication" class="btn btn-green">+ Add Medication</a>
+    </div>
+
     <hr>
+
     {% if medications %}
-    <table border="1" cellpadding="8">
+    <table>
         <tr>
-            <th>Name</th>
+            <th>Medication</th>
             <th>Dose</th>
             <th>Frequency</th>
             <th>Timing</th>
@@ -25,12 +35,16 @@
             <td>{{ m[3] }}</td>
             <td>{{ m[4] }}</td>
             <td>{{ m[5] }}</td>
-            <td><a href="/medication/delete/{{ m[0] }}/{{ m[1] }}">Delete</a></td>
+            <td><a href="/medication/delete/{{ m[0] }}/{{ m[1] }}" class="btn btn-danger">Delete</a></td>
         </tr>
         {% endfor %}
     </table>
     {% else %}
-        <p>No Medications added yet.</p>
+        <div class="card">
+            <p class="empty">No medications added yet. Click above to add one.</p>
+        </div>
     {% endif %}
+
+</div>
 </body>
 </html>

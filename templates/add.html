@@ -1,23 +1,42 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Patient </title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Add Patient</title>
 </head>
 <body>
-    <h1> Add New Patient </h1>
-    <form method="post">
-        <input type="text" name="name" placeholder="Patient Name.." required><br>
-        <input type="number" name="age" placeholder="Age" required><br>
-        <input type="text" name="condition" placeholder="Medical Condition"><br>
-        <input type="text" name="doctor" placeholder="Doctor Name"><br>
-        <input type="text" name="hospital" placeholder="Hospital">
-        <button type="submit">Save Patient </button>
-    </form>
-    <a href="/">Back</a>
-    
+<div class="container">
+
+    <a href="/" class="back-link">← Back to Patients</a>
+
+    <h1>➕ Add New Patient</h1>
+    <p>Fill in the patient details below.</p>
+
+    <hr>
+
+    <div class="card">
+        <form method="POST">
+            <label>Patient Name</label>
+            <input type="text" name="name" placeholder="Enter full name" required>
+
+            <label>Age</label>
+            <input type="number" name="age" placeholder="Enter age" required>
+
+            <label>Medical Condition</label>
+            <input type="text" name="condition" placeholder="e.g. Diabetes, Cancer, Arthritis">
+
+            <label>Doctor Name</label>
+            <input type="text" name="doctor" placeholder="Enter doctor's name">
+
+            <label>Hospital</label>
+            <input type="text" name="hospital" placeholder="Enter hospital name">
+
+            <button type="submit" class="btn btn-green">Save Patient</button>
+        </form>
+    </div>
+
+</div>
 </body>
 </html>

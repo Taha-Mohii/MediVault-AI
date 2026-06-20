@@ -3,23 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Reports - {{ patient[1] }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Upload Report - {{ patient[1] }}</title>
 </head>
 <body>
-    <h1>Upload Reports - {{ patient[1] }}</h1>
-    <a href="/patient/{{ patient[0] }}">Back</a>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
+    <h1>📄 Upload Report</h1>
+    <p>Upload medical reports, prescriptions, or test results for {{ patient[1] }}.</p>
+
     <hr>
-    <form method="post" enctype="multipart/form-data">
-        <select name="category">
-            <option value="Blood Test">Blood Test</option>
-            <option value="Imaging">Imaging (MRI/CT/X-Ray)</option>
-            <option value="Biopsy">Biopsy</option>
-            <option value="Prescription">Prescription</option>
-            <option value="Doctor Notes">Doctor Notes</option>
-            <option value="Other">Other</option>
-        </select><br><br>
-        <input type="file" name="file" required><br><br>
-        <button type="submit" >Upload Report</button>
-    </form>
+
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data">
+            <label>Report Category</label>
+            <select name="category">
+                <option value="Blood Test">Blood Test</option>
+                <option value="Imaging">Imaging (MRI/CT/X-Ray)</option>
+                <option value="Biopsy">Biopsy</option>
+                <option value="Prescription">Prescription</option>
+                <option value="Doctor Notes">Doctor Notes</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label>Select File</label>
+            <input type="file" name="file" required>
+
+            <button type="submit" class="btn btn-primary">Upload Report</button>
+        </form>
+    </div>
+
+</div>
 </body>
 </html>

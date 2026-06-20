@@ -1,43 +1,54 @@
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Vitals - {{patient[1]}}</title>
-        </head>
-        <body>
-            <h1>Vitals - {{ patient[1] }}</h1>
-            <a href="/patient/{{ patient[0] }}">Back</a>
-            
-            <hr>
-            {% if vitals %}
-            <table border="1" cellpadding="8">
-                <tr>
-                    <th>Date</th>
-                    <th>Temp (°C)</th>
-                    <th>BP</th> 
-                    <th>Sugar</th>
-                    <th>Weight</th>
-                    <th>Heart Rate</th>
-                    <th>Action</th>
-                    
-                </tr>
-                {% for v in vitals %}
-                
-                <tr>
-                    <td>{{ v[2] }}</td>
-                    <td>{{ v[3] }}</td>
-                    <td>{{ v[4] }}/{{ v[5] }}</td>
-                    <td>{{ v[6] }}</td>
-                    <td>{{ v[7] }}</td>
-                    <td>{{ v[8] }}</td>
-                    <td><a href="/vital/delete/{{ v[0] }}/{{ v[1] }}">Delete</a></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <p>No vitals logged yet.</p>
-            {% endif %}
-        </body>
-        </html>
-        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Vitals - {{ patient[1] }}</title>
+</head>
+<body>
+<div class="container">
+
+    <a href="/patient/{{ patient[0] }}" class="back-link">← Back to Patient</a>
+
+    <h1>📈 Vitals — {{ patient[1] }}</h1>
+    <p>Track vital signs over time.</p>
+
+    <div class="nav">
+        <a href="/patient/{{ patient[0] }}/add_vitals" class="btn btn-primary">+ Log New Vitals</a>
+    </div>
+
+    <hr>
+
+    {% if vitals %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Temp (°C)</th>
+            <th>BP</th>
+            <th>Sugar</th>
+            <th>Weight</th>
+            <th>Heart Rate</th>
+            <th>Action</th>
+        </tr>
+        {% for v in vitals %}
+        <tr>
+            <td>{{ v[2] }}</td>
+            <td>{{ v[3] }}</td>
+            <td>{{ v[4] }}/{{ v[5] }}</td>
+            <td>{{ v[6] }}</td>
+            <td>{{ v[7] }}</td>
+            <td>{{ v[8] }}</td>
+            <td><a href="/vital/delete/{{ v[0] }}/{{ v[1] }}" class="btn btn-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <div class="card">
+            <p class="empty">No vitals logged yet. Click above to log vitals.</p>
+        </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
