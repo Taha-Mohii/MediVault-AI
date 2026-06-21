@@ -27,6 +27,19 @@ MediVault solves all three.
 
 ---
 
+## 📸 Screenshots
+
+### 🏠 Home — Patient List
+![Home Page](screenshots/home.png)
+
+### 📊 Patient Dashboard
+![Patient Dashboard](screenshots/dashboard.png)
+
+### 🚨 Emergency Guide
+![Emergency Guide](screenshots/emergency.png)
+
+---
+
 ## ✨ Features
 
 ### 🗂️ Patient Management
@@ -201,12 +214,12 @@ Open `http://localhost:5000` in your browser.
 ```
 MediVault-AI/
 │
-├── app.py              # Flask routes and application logic
-├── database.py         # All database and storage functions
-├── requirements.txt    # Python dependencies
+├── app.py                  # Flask routes and application logic
+├── database.py             # All database and storage functions
+├── requirements.txt        # Python dependencies
 │
 ├── static/
-│   └── style.css       # Professional medical UI design
+│   └── style.css           # Professional medical UI design
 │
 ├── templates/
 │   ├── index.html          # Patient list
@@ -222,7 +235,8 @@ MediVault-AI/
 │   ├── emergency.html      # Emergency guide
 │   └── summary.html        # Doctor visit summary
 │
-├── .env                # Secret keys (not pushed to GitHub)
+├── screenshots/            # App screenshots
+├── .env                    # Secret keys — never pushed to GitHub
 └── .gitignore
 ```
 
