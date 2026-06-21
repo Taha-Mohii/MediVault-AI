@@ -206,3 +206,4 @@ def generate_summary_pdf(patient, response):
     c.save()
     buf.seek(0)
     return buf
+
